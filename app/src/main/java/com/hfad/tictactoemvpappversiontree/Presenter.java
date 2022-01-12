@@ -5,6 +5,7 @@ import android.widget.Button;
 public class Presenter implements IContract.IPresenter {
 
     public boolean activePlayer = true;
+    private int roundCount;
 
     Symbol[] gameStateSymbol = {Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY,
             Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY};
@@ -26,14 +27,18 @@ public class Presenter implements IContract.IPresenter {
     public void move(int i) {
 
         if (activePlayer) {
-           gameStateSymbol[i] = Symbol.CROSS;
-           myMVPView.updateView( "X", i);
-           activePlayer = false;
+            gameStateSymbol[i] = Symbol.CROSS;
+            myMVPView.updateView("X", i);
         } else {
             gameStateSymbol[i] = Symbol.ZERO;
-            myMVPView.updateView( "0", i);
-            activePlayer = true;
+            myMVPView.updateView("0", i);
         }
 
+        activePlayer = !activePlayer;
+    }
+
+    @Override
+    public void clear() {
+        activePlayer = true;
     }
 }

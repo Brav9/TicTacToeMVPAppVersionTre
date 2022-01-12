@@ -7,12 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, IContract.IView {
+public class MainActivity extends AppCompatActivity implements IContract.IView {
+
     IContract.IPresenter myMVPPresenter;
 
     TextView playerOneScore;
     TextView playerTwoScore;
     TextView playerStatus;
+
     Button btnZero;
     Button btnOne;
     Button btnTwo;
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button resetGame = findViewById(R.id.resetGame);
 
         playerOneScore = findViewById(R.id.playerOneScore);
         playerTwoScore = findViewById(R.id.playerTwoScore);
@@ -49,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View view) {
 
                 myMVPPresenter.move(0);
-
-                ((Button) view).setText("X");
             }
         });
 
@@ -110,36 +112,70 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 myMVPPresenter.move(8);
             }
         });
+
+        resetGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myMVPPresenter.clear();
+
+                btnZero.setText("");
+                btnZero.setEnabled(true);
+                btnOne.setText("");
+                btnOne.setEnabled(true);
+                btnTwo.setText("");
+                btnTwo.setEnabled(true);
+                btnTree.setText("");
+                btnTree.setEnabled(true);
+                btnFour.setText("");
+                btnFour.setEnabled(true);
+                btnFive.setText("");
+                btnFive.setEnabled(true);
+                btnSix.setText("");
+                btnSix.setEnabled(true);
+                btnSeven.setText("");
+                btnSeven.setEnabled(true);
+                btnEight.setText("");
+                btnEight.setEnabled(true);
+
+            }
+        });
     }
 
     @Override
     public void updateView(String s, int i) {
+        if (i == 0) {
+            btnZero.setText(s);
+            btnZero.setEnabled(false);
+        } else if (i == 1) {
+            btnOne.setText(s);
+            btnOne.setEnabled(false);
+        } else if (i == 2) {
+            btnTwo.setText(s);
+            btnTwo.setEnabled(false);
+        } else if (i == 3) {
+            btnTree.setText(s);
+            btnTree.setEnabled(false);
+        } else if (i == 4) {
+            btnFour.setText(s);
+            btnFour.setEnabled(false);
+        } else if (i == 5) {
+            btnFive.setText(s);
+            btnFive.setEnabled(false);
+        } else if (i == 6) {
+            btnSix.setText(s);
+            btnSix.setEnabled(false);
+        } else if (i == 7) {
+            btnSeven.setText(s);
+            btnSeven.setEnabled(false);
+        } else if (i == 8) {
+            btnEight.setText(s);
+            btnEight.setEnabled(false);
 
-
-            if (i == 0) {
-                btnZero.setText(s);
-            } else if (i == 1) {
-                btnOne.setText(s);
-            } else if (i == 2) {
-                btnTwo.setText(s);
-            } else if (i == 3) {
-                btnTree.setText(s);
-            } else if (i == 4) {
-                btnFour.setText(s);
-            } else if (i == 5) {
-                btnFive.setText(s);
-            } else if (i == 6) {
-                btnSix.setText(s);
-            } else if (i == 7) {
-                btnSeven.setText(s);
-            } else if (i == 8) {
-                btnEight.setText(s);
-
-            }
+        }
     }
 
     @Override
-    public void onClick(View view) {
+    public void finishGame() {
 
     }
 }
