@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements IContract.IView {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, IContract.IView {
     IContract.IPresenter myMVPPresenter;
 
     TextView playerOneScore;
@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
         btnZero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 myMVPPresenter.move(0);
+
+                ((Button) view).setText("X");
             }
         });
 
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
             @Override
             public void onClick(View view) {
                 myMVPPresenter.move(1);
+
             }
         });
 
@@ -106,5 +110,36 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
                 myMVPPresenter.move(8);
             }
         });
+    }
+
+    @Override
+    public void updateView(String s, int i) {
+
+
+            if (i == 0) {
+                btnZero.setText(s);
+            } else if (i == 1) {
+                btnOne.setText(s);
+            } else if (i == 2) {
+                btnTwo.setText(s);
+            } else if (i == 3) {
+                btnTree.setText(s);
+            } else if (i == 4) {
+                btnFour.setText(s);
+            } else if (i == 5) {
+                btnFive.setText(s);
+            } else if (i == 6) {
+                btnSix.setText(s);
+            } else if (i == 7) {
+                btnSeven.setText(s);
+            } else if (i == 8) {
+                btnEight.setText(s);
+
+            }
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }

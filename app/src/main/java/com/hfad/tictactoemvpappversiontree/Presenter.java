@@ -4,10 +4,10 @@ import android.widget.Button;
 
 public class Presenter implements IContract.IPresenter {
 
-    boolean activePlayer;
+    public boolean activePlayer = true;
 
     Symbol[] gameStateSymbol = {Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY,
-            Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY};
+            Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY};
 
     int[][] winningPosition = {
             {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, //rows
@@ -24,6 +24,16 @@ public class Presenter implements IContract.IPresenter {
 
     @Override
     public void move(int i) {
+
+        if (activePlayer) {
+           gameStateSymbol[i] = Symbol.CROSS;
+           myMVPView.updateView( "X", i);
+           activePlayer = false;
+        } else {
+            gameStateSymbol[i] = Symbol.ZERO;
+            myMVPView.updateView( "0", i);
+            activePlayer = true;
+        }
 
     }
 }
