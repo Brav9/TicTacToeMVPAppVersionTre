@@ -6,9 +6,9 @@ import android.widget.Toast;
 public class Presenter implements IContract.IPresenter {
 
     public boolean activePlayer = true;
-    private int roundCount = 0;
-    private int playerOneScoreCount;
-    private int playerTwoScoreCount;
+    int roundCount = 0;
+    int playerOneScoreCount;
+    int playerTwoScoreCount;
 
 
     // x => 0;
@@ -32,7 +32,7 @@ public class Presenter implements IContract.IPresenter {
 
     @Override
     public void move(int i) {
-
+        roundCount++;
         if (activePlayer) {
             gameStateSymbol[i] = 0;
             myMVPView.updateView("X", i);
@@ -40,8 +40,6 @@ public class Presenter implements IContract.IPresenter {
             gameStateSymbol[i] = 1;
             myMVPView.updateView("0", i);
         }
-        roundCount++;
-        activePlayer = !activePlayer;
 
         if (checkWinner()) {
             if (activePlayer) {
@@ -51,6 +49,10 @@ public class Presenter implements IContract.IPresenter {
             }
             myMVPView.updatePlayerScore();
             playAgain();
+        } else if (roundCount == 9){
+            playAgain();
+        } else {
+            activePlayer = !activePlayer;
         }
     }
 
