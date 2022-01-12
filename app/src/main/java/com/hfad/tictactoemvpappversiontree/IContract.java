@@ -6,6 +6,6 @@ public interface IContract {
     }
 
     interface IPresenter {
-
+       void move(int i);
     }
 }
