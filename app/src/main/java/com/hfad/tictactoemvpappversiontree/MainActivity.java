@@ -117,26 +117,7 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
             @Override
             public void onClick(View view) {
                 myMVPPresenter.clear();
-
-                btnZero.setText("");
-                btnZero.setEnabled(true);
-                btnOne.setText("");
-                btnOne.setEnabled(true);
-                btnTwo.setText("");
-                btnTwo.setEnabled(true);
-                btnTree.setText("");
-                btnTree.setEnabled(true);
-                btnFour.setText("");
-                btnFour.setEnabled(true);
-                btnFive.setText("");
-                btnFive.setEnabled(true);
-                btnSix.setText("");
-                btnSix.setEnabled(true);
-                btnSeven.setText("");
-                btnSeven.setEnabled(true);
-                btnEight.setText("");
-                btnEight.setEnabled(true);
-
+                returnStart();
             }
         });
     }
@@ -177,5 +158,33 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
     @Override
     public void finishGame() {
 
+    }
+
+    @Override
+    public void returnStart() {
+        btnZero.setText("");
+        btnZero.setEnabled(true);
+        btnOne.setText("");
+        btnOne.setEnabled(true);
+        btnTwo.setText("");
+        btnTwo.setEnabled(true);
+        btnTree.setText("");
+        btnTree.setEnabled(true);
+        btnFour.setText("");
+        btnFour.setEnabled(true);
+        btnFive.setText("");
+        btnFive.setEnabled(true);
+        btnSix.setText("");
+        btnSix.setEnabled(true);
+        btnSeven.setText("");
+        btnSeven.setEnabled(true);
+        btnEight.setText("");
+        btnEight.setEnabled(true);
+    }
+
+    @Override
+    public void updatePlayerScore() {
+        playerOneScore.setText(Integer.toString(myMVPPresenter.playerOneScoreCount()));
+        playerTwoScore.setText(Integer.toString(myMVPPresenter.playerTwoScoreCount()));
     }
 }
