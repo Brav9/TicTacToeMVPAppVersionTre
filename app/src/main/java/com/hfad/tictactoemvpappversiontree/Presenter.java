@@ -1,8 +1,5 @@
 package com.hfad.tictactoemvpappversiontree;
 
-import android.widget.Button;
-import android.widget.Toast;
-
 public class Presenter implements IContract.IPresenter {
 
     public boolean activePlayer = true;
@@ -10,18 +7,8 @@ public class Presenter implements IContract.IPresenter {
     int playerOneScoreCount;
     int playerTwoScoreCount;
 
-
-    // x => 0;
-    // 0 => 1;
-    // empty => 2;
-    int[] gameStateSymbol = {2, 2, 2, 2, 2, 2, 2, 2, 2};
-
-
-    int[][] winningPosition = {
-            {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, //rows
-            {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, //columns
-            {0, 4, 8}, {2, 4, 6} // cross
-    };
+    Symbol[] gameSymbol = {Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY,
+            Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY, Symbol.EMPTY};
 
     IContract.IView myMVPView;
 
@@ -29,28 +16,50 @@ public class Presenter implements IContract.IPresenter {
         this.myMVPView = myMVPView;
     }
 
-
     @Override
     public void move(int i) {
+
         roundCount++;
+
         if (activePlayer) {
-            gameStateSymbol[i] = 0;
+            gameSymbol[i] = Symbol.ZERO;
             myMVPView.updateView("X", i);
         } else {
-            gameStateSymbol[i] = 1;
+            gameSymbol[i] = Symbol.CROSS;
             myMVPView.updateView("0", i);
         }
 
-        if (checkWinner()) {
-            if (activePlayer) {
-                playerOneScoreCount();
-            } else {
-                playerTwoScoreCount();
-            }
-            myMVPView.updatePlayerScore();
+        if (gameSymbol[0] == Symbol.ZERO && gameSymbol[1] == Symbol.ZERO && gameSymbol[2] == Symbol.ZERO ||
+                gameSymbol[3] == Symbol.ZERO && gameSymbol[4] == Symbol.ZERO && gameSymbol[5] == Symbol.ZERO ||
+                gameSymbol[6] == Symbol.ZERO && gameSymbol[7] == Symbol.ZERO && gameSymbol[8] == Symbol.ZERO ||
+
+                gameSymbol[0] == Symbol.ZERO && gameSymbol[3] == Symbol.ZERO && gameSymbol[6] == Symbol.ZERO ||
+                gameSymbol[1] == Symbol.ZERO && gameSymbol[4] == Symbol.ZERO && gameSymbol[7] == Symbol.ZERO ||
+                gameSymbol[2] == Symbol.ZERO && gameSymbol[5] == Symbol.ZERO && gameSymbol[8] == Symbol.ZERO ||
+
+                gameSymbol[0] == Symbol.ZERO && gameSymbol[4] == Symbol.ZERO && gameSymbol[8] == Symbol.ZERO ||
+                gameSymbol[2] == Symbol.ZERO && gameSymbol[4] == Symbol.ZERO && gameSymbol[6] == Symbol.ZERO) {
+
+            playerOneScoreCount();
+            myMVPView.finishGame(Winner.WIN_ZERO);
+
+        } else if (gameSymbol[0] == Symbol.CROSS && gameSymbol[1] == Symbol.CROSS && gameSymbol[2] == Symbol.CROSS ||
+                gameSymbol[3] == Symbol.CROSS && gameSymbol[4] == Symbol.CROSS && gameSymbol[5] == Symbol.CROSS ||
+                gameSymbol[6] == Symbol.CROSS && gameSymbol[7] == Symbol.CROSS && gameSymbol[8] == Symbol.CROSS ||
+
+                gameSymbol[0] == Symbol.CROSS && gameSymbol[3] == Symbol.CROSS && gameSymbol[6] == Symbol.CROSS ||
+                gameSymbol[1] == Symbol.CROSS && gameSymbol[4] == Symbol.CROSS && gameSymbol[7] == Symbol.CROSS ||
+                gameSymbol[2] == Symbol.CROSS && gameSymbol[5] == Symbol.CROSS && gameSymbol[8] == Symbol.CROSS ||
+
+                gameSymbol[0] == Symbol.CROSS && gameSymbol[4] == Symbol.CROSS && gameSymbol[8] == Symbol.CROSS ||
+                gameSymbol[2] == Symbol.CROSS && gameSymbol[4] == Symbol.CROSS && gameSymbol[6] == Symbol.CROSS) {
+
+            playerTwoScoreCount();
+            myMVPView.finishGame(Winner.WIN_CROSS);
+
+        } else if (roundCount == 9) {
             playAgain();
-        } else if (roundCount == 9){
-            playAgain();
+            myMVPView.returnStart();
         } else {
             activePlayer = !activePlayer;
         }
@@ -65,35 +74,27 @@ public class Presenter implements IContract.IPresenter {
     @Override
     public int playerTwoScoreCount() {
         playerTwoScoreCount++;
-        return playerOneScoreCount;
-    }
-
-    @Override
-    public void clear() {
-        activePlayer = true;
-        roundCount = 0;
+        return playerTwoScoreCount;
     }
 
     @Override
     public void playAgain() {
-        clear();
+        activePlayer = true;
+        roundCount = 0;
+        myMVPView.returnStart();
         for (int i = 0; i < 9; i++) {
-            gameStateSymbol[i] = 2;
-            myMVPView.returnStart();
+            gameSymbol[i] = Symbol.ZERO;
         }
     }
 
-    public boolean checkWinner() {
-        boolean winnerResult = false;
+    @Override
+    public void clearOneScoreCount() {
+        playerOneScoreCount = 0;
 
-        for (int[] winningPosition : winningPosition) {
-            if (gameStateSymbol[winningPosition[0]] == gameStateSymbol[winningPosition[1]] &&
-                    gameStateSymbol[winningPosition[1]] == gameStateSymbol[winningPosition[2]] &&
-                    gameStateSymbol[winningPosition[0]] != 2) {
-                winnerResult = true;
+    }
 
-            }
-        }
-        return winnerResult;
+    @Override
+    public void clearTwoScoreCount() {
+        playerOneScoreCount = 0;
     }
 }

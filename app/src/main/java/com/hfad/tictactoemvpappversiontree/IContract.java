@@ -4,9 +4,8 @@ public interface IContract {
     interface IView {
 
         void updateView(String s, int i);
-        void finishGame();
+        void finishGame(Winner winner);
         void returnStart();
-        void updatePlayerScore();
 
     }
 
@@ -14,7 +13,9 @@ public interface IContract {
        void move(int i);
        int playerOneScoreCount();
        int playerTwoScoreCount();
-       void clear();
        void playAgain();
+       void clearOneScoreCount();
+       void clearTwoScoreCount();
+
     }
 }

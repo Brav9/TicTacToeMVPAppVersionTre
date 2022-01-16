@@ -116,8 +116,11 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
         resetGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myMVPPresenter.clear();
-                returnStart();
+
+                myMVPPresenter.clearOneScoreCount();
+                myMVPPresenter.clearTwoScoreCount();
+               finishGame(Winner.DRAFT);
+
             }
         });
     }
@@ -156,7 +159,11 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
     }
 
     @Override
-    public void finishGame() {
+    public void finishGame(Winner winner) {
+        myMVPPresenter.playAgain();
+        playerOneScore.setText(Integer.toString(myMVPPresenter.playerOneScoreCount()));
+        playerTwoScore.setText(Integer.toString(myMVPPresenter.playerTwoScoreCount()));
+
 
     }
 
@@ -182,9 +189,9 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
         btnEight.setEnabled(true);
     }
 
-    @Override
-    public void updatePlayerScore() {
-        playerOneScore.setText(Integer.toString(myMVPPresenter.playerOneScoreCount()));
-        playerTwoScore.setText(Integer.toString(myMVPPresenter.playerTwoScoreCount()));
-    }
+//    @Override
+//    public void updatePlayerScore() {
+//        playerOneScore.setText(Integer.toString(myMVPPresenter.playerOneScoreCount()));
+//        playerTwoScore.setText(Integer.toString(myMVPPresenter.playerTwoScoreCount()));
+//    }
 }
