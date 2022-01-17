@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements IContract.IView {
 
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
 
                 myMVPPresenter.clearOneScoreCount();
                 myMVPPresenter.clearTwoScoreCount();
-               finishGame(Winner.DRAFT);
+                finishGame(Winner.DRAFT);
 
             }
         });
@@ -161,10 +162,18 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
     @Override
     public void finishGame(Winner winner) {
         myMVPPresenter.playAgain();
-        playerOneScore.setText(Integer.toString(myMVPPresenter.playerOneScoreCount()));
-        playerTwoScore.setText(Integer.toString(myMVPPresenter.playerTwoScoreCount()));
-
-
+        if (winner == Winner.WIN_CROSS) {
+            playerOneScore.setText(Integer.toString(myMVPPresenter.playerOneScoreCount()));
+            Toast.makeText(this, "Player One Won!", Toast.LENGTH_SHORT).show();
+        } else if (winner == Winner.WIN_ZERO) {
+            playerTwoScore.setText(Integer.toString(myMVPPresenter.playerTwoScoreCount()));
+            Toast.makeText(this, "Player Two Won!", Toast.LENGTH_SHORT).show();
+        } else if (winner == Winner.DRAFT) {
+            playerOneScore.setText("0");
+            playerTwoScore.setText("0");
+        } else {
+            Toast.makeText(this, "No Winner!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -188,10 +197,4 @@ public class MainActivity extends AppCompatActivity implements IContract.IView {
         btnEight.setText("");
         btnEight.setEnabled(true);
     }
-
-//    @Override
-//    public void updatePlayerScore() {
-//        playerOneScore.setText(Integer.toString(myMVPPresenter.playerOneScoreCount()));
-//        playerTwoScore.setText(Integer.toString(myMVPPresenter.playerTwoScoreCount()));
-//    }
 }

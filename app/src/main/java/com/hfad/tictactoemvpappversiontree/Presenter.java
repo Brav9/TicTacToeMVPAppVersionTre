@@ -22,10 +22,10 @@ public class Presenter implements IContract.IPresenter {
         roundCount++;
 
         if (activePlayer) {
-            gameSymbol[i] = Symbol.ZERO;
+            gameSymbol[i] = Symbol.CROSS;
             myMVPView.updateView("X", i);
         } else {
-            gameSymbol[i] = Symbol.CROSS;
+            gameSymbol[i] = Symbol.ZERO;
             myMVPView.updateView("0", i);
         }
 
@@ -60,6 +60,7 @@ public class Presenter implements IContract.IPresenter {
         } else if (roundCount == 9) {
             playAgain();
             myMVPView.returnStart();
+
         } else {
             activePlayer = !activePlayer;
         }
@@ -83,7 +84,7 @@ public class Presenter implements IContract.IPresenter {
         roundCount = 0;
         myMVPView.returnStart();
         for (int i = 0; i < 9; i++) {
-            gameSymbol[i] = Symbol.ZERO;
+            gameSymbol[i] = Symbol.EMPTY;
         }
     }
 

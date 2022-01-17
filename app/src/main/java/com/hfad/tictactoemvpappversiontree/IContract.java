@@ -2,11 +2,9 @@ package com.hfad.tictactoemvpappversiontree;
 
 public interface IContract {
     interface IView {
-
         void updateView(String s, int i);
         void finishGame(Winner winner);
         void returnStart();
-
     }
 
     interface IPresenter {
@@ -16,6 +14,5 @@ public interface IContract {
        void playAgain();
        void clearOneScoreCount();
        void clearTwoScoreCount();
-
     }
 }
